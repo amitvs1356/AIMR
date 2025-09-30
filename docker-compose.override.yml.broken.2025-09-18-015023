@@ -1,0 +1,15 @@
+services:
+  backend:
+    restart: unless-stopped
+    extra_hosts:
+      - "api.themoviedb.org:65.9.112.49"
+  worker:
+    restart: unless-stopped
+    extra_hosts:
+      - "api.themoviedb.org:65.9.112.49"
+  gateway:
+    restart: unless-stopped
+  frontend:
+    restart: unless-stopped
+  db:
+    restart: unless-stopped

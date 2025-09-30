@@ -16,8 +16,8 @@ LOG=/var/log/aimr-enqueue.log
     logger -t aimr-cron "enqueue FAILED rc=${rc}"
 
     # --- Optional Telegram alert (fill real values) ---
-    TG_BOT="123456:ABC..."      # bot token
-    TG_CHAT="-100123456789"     # chat id
+    TG_BOT="<REAL_BOT_TOKEN>"      # bot token
+    TG_CHAT="<CHAT_ID>"     # chat id
     if [ -n "${TG_BOT}" ] && [[ "${TG_BOT}" != "123456:ABC..." ]]; then
       curl -fsS -X POST "https://api.telegram.org/bot${TG_BOT}/sendMessage" \
         -d chat_id="$TG_CHAT" \
