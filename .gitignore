@@ -6,3 +6,4 @@ data/
 worker/
 backend/__pycache__/
 frontend/node_modules/
+/root/aimr_env

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+source /root/aimr_env || true
 set -euo pipefail
 LOG=/var/log/aimr-enqueue.log
 
