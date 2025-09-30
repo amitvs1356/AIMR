@@ -1,0 +1,8 @@
+.env
+*.tar.gz
+*.sql
+.compose-health/
+data/
+worker/
+backend/__pycache__/
+frontend/node_modules/
