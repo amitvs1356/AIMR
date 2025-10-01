@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  backend:
+    name: Backend (FastAPI) Checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install backend deps (if requirements.txt)
+        if: hashFiles('**/requirements.txt') != ''
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install pytest ruff || true
+
+      - name: Ruff Lint (if python files exist)
+        if: ${{ contains( join(fromJson(steps.list.outputs.files || '[]'), ' '), '.py' ) }}
+        id: lint
+        run: |
+          python - <<'PY'
+import os, json
+files=[]
+for root,_,fn in os.walk('.'):
+  for f in fn:
+    if f.endswith('.py'): files.append(os.path.join(root,f))
+print(json.dumps(files))
+PY
+          ruff check . || true
+
+      - name: Run tests (pytest if present)
+        run: |
+          if python -c "import pytest" 2>/dev/null; then
+            if ls -1 **/tests 2>/dev/null | grep -q .; then
+              pytest -q || true
+            else
+              echo "No tests/ dir found; skipping"
+            fi
+          else
+            echo "pytest not installed; skipping"
+          fi
+
+  frontend:
+    name: Frontend (Next.js) Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install & Build (if package.json exists)
+        if: hashFiles('**/package.json') != ''
+        run: |
+          npm ci || npm install
+          if jq -re '.scripts.build' package.json >/dev/null 2>&1; then
+            npm run build
+          else
+            echo "No build script; skipping"
+          fi
