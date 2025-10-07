@@ -1,2 +1,2 @@
-# Release Notes (v2025.10.07-auto-2 → v2025.10.07-auto-2)
+# Release Notes (v2025.10.08-auto-4 → v2025.10.08-auto-4)
 
