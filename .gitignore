@@ -7,3 +7,20 @@ worker/
 backend/__pycache__/
 frontend/node_modules/
 /root/aimr_env
+# Node/Next
+node_modules/
+.next/
+out/
+npm-debug.log*
+.yarn/*
+# Python
+__pycache__/
+*.py[cod]
+.env
+.venv/
+# OS/Editor
+.DS_Store
+*.swp
+# Logs
+*.log
+logs/
